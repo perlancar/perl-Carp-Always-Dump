@@ -10,6 +10,7 @@ use Scalar::Util qw(blessed);
 
 # VERSION
 
+our $Color     = $ENV{COLOR} // 1;
 our $DumpObj   = 0;
 our $MaxArgLen = 0;
 
@@ -19,14 +20,28 @@ our $h = patch_package(
     "Carp", "format_arg", "replace",
     sub {
         my $arg = shift;
+        my $res;
+
         if (blessed($arg) && !$DumpObj) {
-            return "'$arg'";
+            $res = "'$arg'";
         } else {
-            my $dmp = dump1($arg);
-            $dmp = substr($dmp, 0, $MaxArgLen) . "..."
-                if $MaxArgLen > 0 && $MaxArgLen < length($dmp);
-            return $dmp;
+            $res = dump1($arg);
+            $res = substr($res, 0, $MaxArgLen) . "..."
+                if $MaxArgLen > 0 && $MaxArgLen < length($res);
         }
+
+        state $colnum = 0;
+        if ($Color) {
+            my $col;
+            if ($colnum++ % 2) {
+                $col = 33;
+            } else {
+                $col = 36;
+            }
+            $res = "\e[$col;3m$res\e[0m";
+        }
+
+        return $res;
     });
 
 1;
@@ -39,6 +54,11 @@ our $h = patch_package(
 
 =head1 VARIABLES
 
+=head2 $Color => BOOL (default: from COLOR environment, or 1)
+
+If set to true, will use terminal colors to help visually distinguish parameters
+from one another.
+
 =head2 $DumpObj => BOOL (default: 0)
 
 If set to 1, will dump objects (blessed references) instead of showing
@@ -48,6 +68,13 @@ them as 'Foo::Bar=HASH(0x19c8ff8)'.
 
 Like C<$MaxArgLen> in L<Carp>, to limit the number of characters of dump to
 show.
+
+
+=head1 ENVIRONMENT
+
+=head2 COLOR => BOOL
+
+Used to set the default of C<$Color>.
 
 
 =head1 SEE ALSO
