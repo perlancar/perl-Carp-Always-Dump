@@ -1,0 +1,7 @@
+Revision history for Carp-Always-Dump
+
+0.01    2013-07-16 (SHARYANTO) (not yet released)
+
+        First release. Use Devel::SimpleTrace source instead of Carp as basis
+        because it is simpler.
+
