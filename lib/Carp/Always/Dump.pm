@@ -22,6 +22,24 @@ require Carp;
 require Carp::Always;
 
 sub import {
+    my ($self, %args) = @_;
+
+    for my $k (keys %args) {
+        my $v = $args{$k};
+        if ($k =~ /^\$?Color$/) {
+            $Color = $v;
+        } elsif ($k =~ /^\$?DumpObj$/) {
+            $DumpObj = $v;
+        } elsif ($k =~ /^\$MaxArgLen$/) {
+            $MaxArgLen = $v;
+        } elsif ($k =~ /^\$?Terse$/) {
+            $Terse = $v;
+        } else {
+            die "Unknown import argument $k, please use one of: ".
+                "Color/DumpObj/MaxArgLen/Terse";
+        }
+    }
+
     $h = patch_package(
         "Carp", "format_arg", "replace",
         sub {
@@ -89,6 +107,18 @@ show.
 
 If set to false, will use L<Data::Dump> instead of the terser
 L<Data::Dump::OneLine> to produce the dumps.
+
+
+=head1 IMPORTS
+
+For each variable mentioned in L</"VARIABLES">, you can also set it via import
+argument:
+
+ use Carp::Always::Dump Color=>0, DumpObj=>1;
+
+Via command-line:
+
+ % perl -MCarp::Always::Dump=Color,1 ...
 
 
 =head1 ENVIRONMENT
