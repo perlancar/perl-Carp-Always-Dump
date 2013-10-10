@@ -11,7 +11,7 @@ use Scalar::Util qw(blessed);
 
 # VERSION
 
-our $Color     = $ENV{COLOR} // 1;
+our $Color     = $ENV{COLOR} // $ENV{INTERACTIVE} // (-t STDOUT);
 our $DumpObj   = 0;
 our $MaxArgLen = 0;
 our $Terse     = 1;
@@ -126,6 +126,8 @@ Via command-line:
 =head2 COLOR => BOOL
 
 Used to set the default of C<$Color>.
+
+=head2 INTERACTIVE => BOOL
 
 
 =head1 SEE ALSO
