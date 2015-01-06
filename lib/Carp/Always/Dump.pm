@@ -79,11 +79,21 @@ sub unimport {
 }
 
 1;
-# ABSTRACT: Like Carp::Always, but dumps the content of function arguments
+# ABSTRACT: (DEPRECATED) Like Carp::Always, but dumps the content of function arguments
 
 =head1 SYNOPSIS
 
  % perl -MCarp::Always::Dump script.pl
+
+
+=head1 DESCRIPTION
+
+B<NOTICE:> This module is deprecated. The same functionality is in
+L<Devel::Confess>:
+
+ % perl -d:Confess=dump ...
+
+This module will be removed from CPAN.
 
 
 =head1 VARIABLES
