@@ -10,7 +10,7 @@ use strict;
 use warnings;
 
 use Data::Dump qw(dump);
-use Data::Dump::OneLine qw(dump1);
+use Data::Dmp qw(dmp);
 use Monkey::Patch::Action qw(patch_package);
 use Scalar::Util qw(blessed);
 
@@ -53,7 +53,7 @@ sub import {
                 $res = "'$arg'";
             } else {
                 if ($Terse) {
-                    $res = dump1($arg);
+                    $res = dmp($arg);
                 } else {
                     $res = dump($arg);
                 }
@@ -82,7 +82,7 @@ sub unimport {
 }
 
 1;
-# ABSTRACT: (DEPRECATED) Like Carp::Always, but dumps the content of function arguments
+# ABSTRACT: Like Carp::Always, but dumps the content of function arguments
 
 =head1 SYNOPSIS
 
@@ -91,12 +91,9 @@ sub unimport {
 
 =head1 DESCRIPTION
 
-B<NOTICE:> This module is deprecated. The same functionality is in
-L<Devel::Confess>:
+B<NOTICE:> Most of the time you'd want L<Devel::Confess> instead:
 
  % perl -d:Confess=dump ...
-
-This module will be removed from CPAN.
 
 
 =head1 VARIABLES
@@ -145,8 +142,10 @@ Used to set the default of C<$Color>.
 
 =head1 SEE ALSO
 
+L<Devel::Confess>
+
 L<Carp::Always> (and its variants such as: L<Carp::Always::Color>,
-L<Carp::Always::SHS>)
+L<Carp::Always::SyntaxHighlightSource>)
 
 L<Devel::SimpleTrace>, a simpler stack trace module, without showing function
 arguments.
