@@ -1,5 +1,10 @@
 package Carp::Always::Dump;
 
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
+
 use 5.010001;
 use strict;
 use warnings;
@@ -8,8 +13,6 @@ use Data::Dump qw(dump);
 use Data::Dump::OneLine qw(dump1);
 use Monkey::Patch::Action qw(patch_package);
 use Scalar::Util qw(blessed);
-
-# VERSION
 
 our $Color     = $ENV{COLOR} // $ENV{INTERACTIVE} // (-t STDOUT);
 our $DumpObj   = 0;
